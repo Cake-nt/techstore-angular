@@ -1,0 +1,65 @@
+<header>
+    <div class="header-container">
+        <div class="logo">
+            <a routerLink="/">
+                <i class="fas fa-laptop-code"></i>
+                <span>Tech<span>Store</span></span>
+            </a>
+        </div>
+
+        <nav>
+            <ul>
+                <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Inicio</a></li>
+                <li><a routerLink="/productos" routerLinkActive="active">Productos</a></li>
+                <li><a routerLink="/carrito" routerLinkActive="active">Carrito <span class="cart-badge">0</span></a></li>
+                <li><a routerLink="/contacto" routerLinkActive="active">Contacto</a></li>
+                <li><a routerLink="/acerca" routerLinkActive="active">Acerca</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <router-outlet></router-outlet>
+</main>
+
+<footer>
+    <div class="footer-container">
+        <div class="footer-section">
+            <h4><i class="fas fa-store"></i> TechStore</h4>
+            <p>Tu tienda de tecnología favorita.</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+        <div class="footer-section">
+            <h4>Enlaces rápidos</h4>
+            <ul>
+                <li><a routerLink="/productos">Productos</a></li>
+                <li><a routerLink="/contacto">Contacto</a></li>
+                <li><a routerLink="/acerca">Acerca de</a></li>
+                <li><a routerLink="/carrito">Carrito</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h4>Contacto</h4>
+            <address>
+                <i class="fas fa-map-marker-alt"></i> Av. Tecnológica 123<br>
+                <i class="fas fa-phone"></i> <a href="tel:+18091234567">+1 (809) 123-4567</a><br>
+                <i class="fas fa-envelope"></i> <a href="mailto:info@techstore.com">info@techstore.com</a>
+            </address>
+        </div>
+        <div class="footer-section">
+            <h4>Horario</h4>
+            <p><i class="fas fa-clock"></i> Lun-Vie: 9am - 9pm</p>
+            <p><i class="fas fa-clock"></i> Sáb: 10am - 6pm</p>
+            <p><i class="fas fa-clock"></i> Dom: Cerrado</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2026 <strong>TechStore</strong>. Todos los derechos reservados.</p>
+    </div>
+</footer>
