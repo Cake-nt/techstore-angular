@@ -1,1 +1,72 @@
-<p>acerca works!</p>
+<div class="row">
+    <div class="col-lg-10 mx-auto">
+        <h1 class="text-center fw-bold mb-4">
+            <i class="fas fa-info-circle text-primary me-2"></i>Acerca de TechStore
+        </h1>
+
+        <!-- Historia -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-body">
+                <h2 class="h4"><i class="fas fa-history text-primary me-2"></i>Nuestra historia</h2>
+                <p><strong>TechStore</strong> nació en enero de 2024 con la misión de revolucionar la forma en que las personas compran tecnología. Desde entonces, nos hemos convertido en la tienda de referencia para entusiastas de la tecnología y profesionales.</p>
+                <p>Con sede en República Dominicana, hemos logrado expandir nuestro alcance a nivel internacional, ofreciendo productos de las mejores marcas del mercado.</p>
+            </div>
+        </div>
+
+        <!-- Misión y Visión -->
+        <div class="row g-4 mb-4">
+            <div class="col-md-6">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-bullseye text-primary fa-3x mb-3"></i>
+                        <h3 class="h5">Misión</h3>
+                        <p class="text-muted">Proporcionar a nuestros clientes acceso a la tecnología más avanzada con un servicio excepcional y precios competitivos.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-eye text-primary fa-3x mb-3"></i>
+                        <h3 class="h5">Visión</h3>
+                        <p class="text-muted">Ser la tienda de tecnología número 1 en Latam, reconocida por nuestra innovación, confianza y compromiso con la excelencia.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Valores -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-body">
+                <h2 class="h4"><i class="fas fa-gem text-primary me-2"></i>Nuestros valores</h2>
+                <div class="row g-3">
+                    <div class="col-md-6" *ngFor="let valor of valores">
+                        <div class="p-3 bg-light rounded">
+                            <h5 class="mb-1"><i class="fas fa-check-circle text-primary me-2"></i>{{ valor.titulo }}</h5>
+                            <p class="text-muted small mb-0">{{ valor.descripcion }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Equipo -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-body">
+                <h2 class="h4"><i class="fas fa-users text-primary me-2"></i>Nuestro equipo</h2>
+                <div class="row g-4">
+                    <div class="col-md-4" *ngFor="let miembro of equipo">
+                        <div class="text-center p-3 bg-light rounded">
+                            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3" style="width:80px;height:80px;">
+                                <i class="fas fa-user fa-2x"></i>
+                            </div>
+                            <h5 class="mb-0">{{ miembro.nombre }}</h5>
+                            <small class="text-primary fw-bold">{{ miembro.cargo }}</small>
+                            <p class="text-muted small mt-1">{{ miembro.experiencia }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

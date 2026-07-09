@@ -1,0 +1,9 @@
+.categoria-card:hover {
+    transform: translateY(-5px);
+    transition: transform 0.3s;
+}
+
+.categoria-card {
+    transition: transform 0.3s;
+    cursor: pointer;
+}

@@ -1,35 +1,60 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { CarritoService } from '../../services/carrito.service';
 import { Producto } from '../../models/producto';
-import { ProductCard } from '../../components/product-card/product-card';
 
 @Component({
-  selector: 'app-home',
+  selector: 'app-detalle-producto',
   standalone: true,
-  imports: [RouterLink, CommonModule, ProductCard],
-  templateUrl: './home.html',
-  styleUrls: ['./home.css']
+  imports: [CommonModule, RouterLink, FormsModule],
+  templateUrl: './detalle-producto.html',
+  styleUrls: ['./detalle-producto.css']
 })
-export class Home implements OnInit {
-  productosDestacados: Producto[] = [];
-  loading: boolean = false;
-  
-  categorias = [
-    { nombre: 'Laptops', icono: 'fas fa-laptop', precioDesde: 599 },
-    { nombre: 'Smartphones', icono: 'fas fa-mobile-alt', precioDesde: 299 },
-    { nombre: 'Accesorios', icono: 'fas fa-headphones', precioDesde: 19 },
-    { nombre: 'Gaming', icono: 'fas fa-gamepad', precioDesde: 49 }
-  ];
+export class DetalleProducto implements OnInit {
+  producto!: Producto;
+  cantidad: number = 1;
+  loading: boolean = true;
+
+  constructor(
+    private route: ActivatedRoute,
+    private carritoService: CarritoService
+  ) {}
 
   ngOnInit(): void {
-    this.productosDestacados = this.getProductosFallback();
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    console.log('🔍 Buscando producto con ID:', id);
+    
+    // 🔥 Buscar el producto en los productos de fallback
+    const productos = this.getProductosFallback();
+    const encontrado = productos.find(p => p.id === id);
+    
+    if (encontrado) {
+      this.producto = encontrado;
+      console.log('✅ Producto encontrado:', this.producto.nombre);
+    } else {
+      console.error('❌ Producto no encontrado');
+      // Producto por defecto si no se encuentra
+      this.producto = productos[0];
+    }
+    this.loading = false;
   }
 
-  onProductoAgregado(producto: Producto): void {
-    // 🔥 EL CARRITO YA SE ACTUALIZÓ EN EL SERVICE
-    // Solo mostramos feedback visual (opcional)
-    console.log('✅ Producto agregado:', producto.nombre);
+  incrementarCantidad(): void {
+    if (this.producto && this.cantidad < this.producto.stock) {
+      this.cantidad++;
+    }
+  }
+
+  decrementarCantidad(): void {
+    if (this.cantidad > 1) {
+      this.cantidad--;
+    }
+  }
+
+  agregarAlCarrito(): void {
+    this.carritoService.agregarProducto(this.producto, this.cantidad);
   }
 
   private getProductosFallback(): Producto[] {

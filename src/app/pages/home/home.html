@@ -1,8 +1,57 @@
-<h1>{{ title }}</h1>
-<p>Tu tienda de tecnología favorita.</p>
+<!-- BANNER PRINCIPAL -->
+<section class="banner-principal mb-5">
+    <h1>¡Gran Liquidación Tecnológica!</h1>
+    <p class="lead">Hasta <span class="badge-warning">50% OFF</span> en productos seleccionados</p>
+    <a routerLink="/products" class="btn btn-warning btn-lg mt-3">
+        <i class="fas fa-shopping-bag me-2"></i>Comprar ahora
+    </a>
+</section>
 
-<section class="banner">
-    <h2>¡Gran Liquidación Tecnológica!</h2>
-    <p>Hasta <mark>50% OFF</mark> en productos seleccionados.</p>
-    <a routerLink="/productos" class="btn-primary">Ver productos</a>
+<!-- CATEGORÍAS -->
+<section class="mb-5">
+    <h2 class="text-center fw-bold mb-4">Categorías</h2>
+    <div class="row g-4">
+        <div class="col-md-3 col-sm-6" *ngFor="let categoria of categorias">
+            <div class="categoria-card" [routerLink]="['/products']" [queryParams]="{categoria: categoria.nombre.toLowerCase()}">
+    <i [class]="categoria.icono"></i>
+    <h5>{{ categoria.nombre }}</h5>
+    <p>Desde <strong>${{ categoria.precioDesde }}</strong></p>
+</div>
+        </div>
+    </div>
+</section>
+
+<!-- PRODUCTOS DESTACADOS -->
+<section class="mb-5">
+    <h2 class="text-center fw-bold mb-4">Productos Destacados</h2>
+
+    <!-- LOADING -->
+    <div *ngIf="loading" class="text-center py-5">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Cargando...</span>
+        </div>
+        <p class="mt-2 text-muted">Cargando productos...</p>
+    </div>
+
+    <!-- PRODUCTOS -->
+    <div *ngIf="!loading" class="row g-4">
+        <div class="col-md-3 col-sm-6" *ngFor="let producto of productosDestacados">
+            <app-product-card 
+                [producto]="producto" 
+                (agregado)="onProductoAgregado($event)">
+            </app-product-card>
+        </div>
+    </div>
+
+    <!-- SIN PRODUCTOS -->
+    <div *ngIf="!loading && productosDestacados.length === 0" class="text-center py-5">
+        <i class="fas fa-box-open fa-3x text-muted mb-3"></i>
+        <h4>No hay productos disponibles</h4>
+        <p class="text-muted">Vuelve más tarde</p>
+    </div>
+
+    <!-- CONTADOR DE PRODUCTOS (DEBUG) -->
+    <div class="text-center text-muted small mt-3" *ngIf="!loading">
+        Mostrando {{ productosDestacados.length }} productos
+    </div>
 </section>

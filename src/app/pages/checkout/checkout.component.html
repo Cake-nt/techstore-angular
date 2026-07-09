@@ -1,0 +1,145 @@
+<div class="row">
+    <div class="col-lg-8">
+        <!-- Formulario -->
+        <div class="card" *ngIf="!ordenGenerada">
+            <div class="card-body">
+                <h4 class="card-title">Datos de envío</h4>
+                <hr>
+
+                <div class="alert alert-danger" *ngIf="errorMensaje">
+                    <i class="fas fa-exclamation-circle me-2"></i>
+                    {{ errorMensaje }}
+                </div>
+
+                <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
+                    <div class="mb-3">
+                        <label class="form-label">Nombre completo *</label>
+                        <input type="text" class="form-control" formControlName="nombre"
+                               [class.is-invalid]="f['nombre'].invalid && f['nombre'].touched">
+                        <div class="invalid-feedback" *ngIf="f['nombre'].invalid && f['nombre'].touched">
+                            El nombre es obligatorio (mínimo 3 caracteres)
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Email *</label>
+                        <input type="email" class="form-control" formControlName="email"
+                               [class.is-invalid]="f['email'].invalid && f['email'].touched">
+                        <div class="invalid-feedback" *ngIf="f['email'].invalid && f['email'].touched">
+                            Ingresa un email válido
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Dirección *</label>
+                        <input type="text" class="form-control" formControlName="direccion"
+                               [class.is-invalid]="f['direccion'].invalid && f['direccion'].touched">
+                        <div class="invalid-feedback" *ngIf="f['direccion'].invalid && f['direccion'].touched">
+                            La dirección es obligatoria
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Teléfono *</label>
+                        <input type="tel" 
+                               class="form-control" 
+                               formControlName="telefono" 
+                               placeholder="8091234567"
+                               maxlength="10"
+                               [class.is-invalid]="f['telefono'].invalid && f['telefono'].touched">
+                        <div class="invalid-feedback" *ngIf="f['telefono'].invalid && f['telefono'].touched">
+                            <span *ngIf="f['telefono'].errors?.['required']">El teléfono es obligatorio</span>
+                            <span *ngIf="f['telefono'].errors?.['minlength'] || f['telefono'].errors?.['maxlength']">Debe tener exactamente 10 dígitos</span>
+                            <span *ngIf="f['telefono'].errors?.['pattern']">Solo se permiten números</span>
+                        </div>
+                        <small class="text-muted">Formato: 8091234567 (10 dígitos)</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Número de tarjeta *</label>
+                        <input type="text" 
+                               class="form-control" 
+                               formControlName="tarjeta" 
+                               placeholder="1234567890123456"
+                               maxlength="16"
+                               [class.is-invalid]="f['tarjeta'].invalid && f['tarjeta'].touched">
+                        <div class="invalid-feedback" *ngIf="f['tarjeta'].invalid && f['tarjeta'].touched">
+                            <span *ngIf="f['tarjeta'].errors?.['required']">El número de tarjeta es obligatorio</span>
+                            <span *ngIf="f['tarjeta'].errors?.['minlength'] || f['tarjeta'].errors?.['maxlength']">Debe tener exactamente 16 dígitos</span>
+                            <span *ngIf="f['tarjeta'].errors?.['pattern']">Solo se permiten números</span>
+                        </div>
+                        <small class="text-muted">16 dígitos sin espacios ni guiones</small>
+                    </div>
+
+                    <button type="submit" class="btn btn-success w-100" 
+                            [disabled]="checkoutForm.invalid || carrito.length === 0 || enviando">
+                        <span *ngIf="!enviando">
+                            <i class="fas fa-check me-2"></i>Confirmar compra
+                        </span>
+                        <span *ngIf="enviando">
+                            <i class="fas fa-spinner fa-spin me-2"></i>Procesando...
+                        </span>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Confirmación -->
+        <div class="card" *ngIf="ordenGenerada">
+            <div class="card-body text-center py-5">
+                <i class="fas fa-check-circle text-success fa-4x mb-3"></i>
+                <h3>¡Compra realizada exitosamente!</h3>
+                <p class="lead">Número de orden: <strong>{{ numeroOrden }}</strong></p>
+                
+                <div *ngIf="correoEnviado" class="alert alert-success">
+                    <i class="fas fa-envelope me-2"></i>
+                    Te hemos enviado un correo con los detalles de tu pedido.
+                </div>
+                <div *ngIf="!correoEnviado" class="alert alert-warning">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    No se pudo enviar el correo de confirmación. Revisa tu bandeja de spam o contacta a soporte.
+                </div>
+
+                <p class="text-muted">Serás redirigido a la página principal en unos segundos...</p>
+                <a routerLink="/" class="btn btn-primary mt-3">
+                    <i class="fas fa-home me-2"></i>Volver al inicio
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Resumen -->
+    <div class="col-lg-4" *ngIf="!ordenGenerada && carrito.length > 0">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Resumen de compra</h5>
+                <hr>
+                <div class="d-flex justify-content-between">
+                    <span>Subtotal</span>
+                    <span>${{ subtotal | number:'1.2-2' }}</span>
+                </div>
+                <div class="d-flex justify-content-between text-success" *ngIf="descuento > 0">
+                    <span>Descuentos</span>
+                    <span>-${{ descuento | number:'1.2-2' }}</span>
+                </div>
+                <div class="d-flex justify-content-between" *ngIf="descuento === 0">
+                    <span>Descuentos</span>
+                    <span>$0.00</span>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <span>Envío</span>
+                    <span>{{ envio === 0 ? 'Gratis' : '$' + (envio | number:'1.2-2') }}</span>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <span>Impuestos (18%)</span>
+                    <span>${{ impuestos | number:'1.2-2' }}</span>
+                </div>
+                <hr>
+                <div class="d-flex justify-content-between fs-5 fw-bold">
+                    <span>Total</span>
+                    <span class="text-primary">${{ total | number:'1.2-2' }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

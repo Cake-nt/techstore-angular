@@ -1,1 +1,97 @@
-<p>carrito works!</p>
+<h1><i class="fas fa-shopping-cart me-2"></i>Carrito de Compras</h1>
+
+<div class="row mt-4">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive" *ngIf="carrito.length > 0">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Precio</th>
+                                <th>Cantidad</th>
+                                <th>Subtotal</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of carrito">
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <img [src]="item.imagen" class="img-thumbnail me-3" style="width:60px;height:60px;object-fit:cover;">
+                                        <div>
+                                            <h6 class="mb-0">{{ item.nombre }}</h6>
+                                            <small class="text-muted">ID: #{{ item.id }}</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>${{ item.precio | number:'1.2-2' }}</td>
+                                <td>
+                                    <div class="input-group" style="width:120px;">
+                                        <button class="btn btn-outline-secondary" (click)="actualizarCantidad(item.id, item.cantidad - 1)">-</button>
+                                        <input type="number" class="form-control text-center" [value]="item.cantidad" readonly>
+                                        <button class="btn btn-outline-secondary" (click)="actualizarCantidad(item.id, item.cantidad + 1)">+</button>
+                                    </div>
+                                </td>
+                                <td>${{ item.precio * item.cantidad | number:'1.2-2' }}</td>
+                                <td>
+                                    <button class="btn btn-danger btn-sm" (click)="eliminarProducto(item.id)">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="text-center py-5" *ngIf="carrito.length === 0">
+                    <i class="fas fa-shopping-cart fa-3x text-muted mb-3"></i>
+                    <h4>Tu carrito está vacío</h4>
+                    <p class="text-muted">¡Explora nuestros productos y añade lo que te guste!</p>
+                    <a routerLink="/products" class="btn btn-primary">Ver productos</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4" *ngIf="carrito.length > 0">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Resumen de compra</h5>
+                <hr>
+                <div class="d-flex justify-content-between">
+                    <span>Subtotal</span>
+                    <span>${{ subtotal | number:'1.2-2' }}</span>
+                </div>
+                <div class="d-flex justify-content-between text-success" *ngIf="descuento > 0">
+                    <span>Descuentos</span>
+                    <span>-${{ descuento | number:'1.2-2' }}</span>
+                </div>
+                <div class="d-flex justify-content-between" *ngIf="descuento === 0">
+                    <span>Descuentos</span>
+                    <span>$0.00</span>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <span>Envío</span>
+                    <span>{{ envio === 0 ? 'Gratis' : ('$' + (envio | number:'1.2-2')) }}</span>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <span>Impuestos (18%)</span>
+                    <span>${{ impuestos | number:'1.2-2' }}</span>
+                </div>
+                <hr>
+                <div class="d-flex justify-content-between fs-5 fw-bold">
+                    <span>Total</span>
+                    <span class="text-primary">${{ total | number:'1.2-2' }}</span>
+                </div>
+                <button class="btn btn-success w-100 mt-3" [routerLink]="['/checkout']">
+                    <i class="fas fa-credit-card me-2"></i>Finalizar compra
+                </button>
+                <button class="btn btn-outline-danger w-100 mt-2" (click)="vaciarCarrito()">
+                    <i class="fas fa-trash-alt me-2"></i>Vaciar carrito
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

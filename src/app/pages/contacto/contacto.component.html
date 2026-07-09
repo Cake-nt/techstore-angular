@@ -1,0 +1,68 @@
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <div class="card">
+            <div class="card-body">
+                <h1>Contacto</h1>
+<p>Página de contacto funcionando</p>
+                <h4 class="card-title text-center mb-4">
+                    <i class="fas fa-envelope me-2"></i>Contáctanos
+                </h4>
+
+                <div class="alert alert-success" *ngIf="enviado">
+                    <i class="fas fa-check-circle me-2"></i>
+                    ¡Mensaje enviado con éxito! Te responderemos pronto.
+                </div>
+
+                <form [formGroup]="contactoForm" (ngSubmit)="onSubmit()">
+                    <div class="mb-3">
+                        <label class="form-label">Nombre completo *</label>
+                        <input type="text" class="form-control" formControlName="nombre"
+                               [class.is-invalid]="f['nombre'].invalid && f['nombre'].touched">
+                        <div class="invalid-feedback" *ngIf="f['nombre'].invalid && f['nombre'].touched">
+                            El nombre es obligatorio
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Email *</label>
+                        <input type="email" class="form-control" formControlName="email"
+                               [class.is-invalid]="f['email'].invalid && f['email'].touched">
+                        <div class="invalid-feedback" *ngIf="f['email'].invalid && f['email'].touched">
+                            Ingresa un email válido
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Asunto *</label>
+                        <select class="form-select" formControlName="asunto"
+                                [class.is-invalid]="f['asunto'].invalid && f['asunto'].touched">
+                            <option value="">Selecciona un asunto...</option>
+                            <option value="consulta">Consulta general</option>
+                            <option value="soporte">Soporte técnico</option>
+                            <option value="ventas">Ventas y cotizaciones</option>
+                            <option value="reclamo">Reclamo o queja</option>
+                            <option value="sugerencia">Sugerencia</option>
+                        </select>
+                        <div class="invalid-feedback" *ngIf="f['asunto'].invalid && f['asunto'].touched">
+                            Selecciona un asunto
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Mensaje *</label>
+                        <textarea class="form-control" rows="5" formControlName="mensaje"
+                                  [class.is-invalid]="f['mensaje'].invalid && f['mensaje'].touched"></textarea>
+                        <div class="invalid-feedback" *ngIf="f['mensaje'].invalid && f['mensaje'].touched">
+                            El mensaje debe tener al menos 10 caracteres
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100" 
+                            [disabled]="contactoForm.invalid">
+                        <i class="fas fa-paper-plane me-2"></i>Enviar mensaje
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

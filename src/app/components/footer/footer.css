@@ -1,0 +1,26 @@
+.social-links a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.social-links a:hover {
+    background: #0d6efd;
+    color: white;
+    transform: translateY(-3px);
+}
+
+footer a.text-white-50:hover {
+    color: white !important;
+}
+
+footer hr {
+    opacity: 0.15;
+}
